@@ -4,7 +4,6 @@ import logging
 from dotenv import load_dotenv
 from google.cloud import dialogflow
 from google.cloud import api_keys_v2
-from google.cloud.api_keys_v2 import Key
 
 
 from telegram import Update, ForceReply
@@ -18,21 +17,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def create_api_key(project_id: str, suffix: str) -> Key:
-    """
-    Creates and restrict an API key. Add the suffix for uniqueness.
-
-    1. Before running this sample,
-      set up ADC as described in https://cloud.google.com/docs/authentication/external/set-up-adc
-    2. Make sure you have the necessary permission to create API keys.
-
-    Args:
-        project_id: Google Cloud project id.
-
-    Returns:
-        response: Returns the created API Key.
-    """
-    # Create the API Keys client.
+def create_api_key(project_id: str, suffix: str):
     client = api_keys_v2.ApiKeysClient()
 
     key = api_keys_v2.Key()
