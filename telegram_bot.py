@@ -26,12 +26,6 @@ def start(update: Update, context: CallbackContext) -> None:
     )
     user = update.effective_user
     context.user_data["user"] = user
-    # print(context.user_data["user"]['username'])
-    context.user_data['project_id'] = os.getenv('PROJECT_ID')
-    context.user_data['key'] = create_api_key(
-        context.user_data['project_id'],
-        context.user_data["user"]['username'],
-    ).name
 
     update.message.reply_markdown_v2(
         fr'Привет, {user.mention_markdown_v2()}\!',
@@ -43,7 +37,7 @@ def answer_user(update: Update, context: CallbackContext) -> None:
     user_id = context.user_data['user']['id']
     text = update.message.text
 
-    answer = detect_intent_texts(context.user_data['project_id'], str(user_id), text)
+    answer = detect_intent_texts(os.getenv('PROJECT_ID'), str(user_id), text)
 
     update.message.reply_text(answer)
 
