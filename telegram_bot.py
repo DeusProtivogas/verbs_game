@@ -39,8 +39,7 @@ def start(update: Update, context: CallbackContext) -> None:
     )
 
 
-def echo(update: Update, context: CallbackContext) -> None:
-    """Echo the user message."""
+def answer_user(update: Update, context: CallbackContext) -> None:
     user_id = context.user_data['user']['id']
     text = update.message.text
 
@@ -70,7 +69,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("start", start))
 
     # on non command i.e message - echo the message on Telegram
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, answer_user))
 
     # Start the Bot
     updater.start_polling()
