@@ -21,7 +21,7 @@ def send_reply(event, vk_api, dialogflow_key):
         vk_api.messages.send(
             user_id=event.user_id,
             message=reply,
-            random_id=random.randint(1,1000)
+            random_id=random.randint(1, 1000)
         )
 
 
