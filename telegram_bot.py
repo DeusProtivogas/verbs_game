@@ -1,6 +1,8 @@
 import os
 import logging
 
+logger = logging.getLogger(__name__)
+
 from dotenv import load_dotenv
 
 from telegram import Update, ForceReply
@@ -8,11 +10,6 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 
 from dialogflow_utils import detect_intent_texts
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
-)
-
-logger = logging.getLogger(__name__)
 
 
 def start(update: Update, context: CallbackContext) -> None:
@@ -38,6 +35,10 @@ def answer_user(update: Update, context: CallbackContext) -> None:
 
 
 def main() -> None:
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+    )
+
     load_dotenv()
     telegram_token = os.getenv('TELEGRAM_TOKEN')
     updater = Updater(telegram_token)
