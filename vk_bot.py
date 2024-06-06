@@ -11,13 +11,13 @@ from dialogflow_utils import create_api_key, detect_intent_texts
 
 def send_reply(event, vk_api, dialogflow_key):
 
-    reply = detect_intent_texts(
+    reply, is_fallback = detect_intent_texts(
         dialogflow_key,
         str(event.user_id),
         event.text
     )
 
-    if reply:
+    if not is_fallback:
         vk_api.messages.send(
             user_id=event.user_id,
             message=reply,

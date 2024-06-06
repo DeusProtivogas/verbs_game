@@ -52,4 +52,4 @@ def detect_intent_texts(project_id, session_id, text, language_code='en-US'):
     )
     answer = response.query_result.fulfillment_text
     print("Fulfillment text: {}\n".format(answer))
-    return answer
+    return (answer, response.query_result.intent.is_fallback)

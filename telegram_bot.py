@@ -17,7 +17,6 @@ def start(update: Update, context: CallbackContext) -> None:
         f'Бот запускается, подождите...',
     )
     user = update.effective_user
-    context.user_data["user"] = user
 
     update.message.reply_markdown_v2(
         fr'Привет, {user.mention_markdown_v2()}\!',
@@ -26,10 +25,9 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def answer_user(update: Update, context: CallbackContext) -> None:
-    user_id = context.user_data['user']['id']
     text = update.message.text
 
-    answer = detect_intent_texts(os.getenv('PROJECT_ID'), str(user_id), text)
+    answer, is_fallback = detect_intent_texts(os.getenv('PROJECT_ID'), str(update.effective_user.id), text)
 
     update.message.reply_text(answer)
 
