@@ -1,20 +1,20 @@
 import os
 import logging
 
-logger = logging.getLogger(__name__)
-
 from dotenv import load_dotenv
 
 from telegram import Update, ForceReply
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+from telegram.ext import Updater, CommandHandler, \
+    MessageHandler, Filters, CallbackContext
 
 from dialogflow_utils import detect_intent_texts
 
+logger = logging.getLogger(__name__)
 
 
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
-        f'Бот запускается, подождите...',
+        'Бот запускается, подождите...',
     )
     user = update.effective_user
 
@@ -27,14 +27,19 @@ def start(update: Update, context: CallbackContext) -> None:
 def answer_user(update: Update, context: CallbackContext) -> None:
     text = update.message.text
 
-    answer, is_fallback = detect_intent_texts(os.getenv('PROJECT_ID'), str(update.effective_user.id), text)
+    answer, is_fallback = detect_intent_texts(
+        os.getenv('PROJECT_ID'),
+        str(update.effective_user.id),
+        text
+    )
 
     update.message.reply_text(answer)
 
 
 def main() -> None:
     logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=logging.INFO
     )
 
     load_dotenv()
@@ -45,7 +50,11 @@ def main() -> None:
 
     dispatcher.add_handler(CommandHandler("start", start))
 
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, answer_user))
+    dispatcher.add_handler(
+        MessageHandler(
+            Filters.text & ~Filters.command, answer_user
+        )
+    )
 
     updater.start_polling()
     updater.idle()
